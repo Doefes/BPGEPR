@@ -1,14 +1,22 @@
-#!/bin/sh -
+#!/bin/sh
 
-organisms="equus_caballus"
-# organisms="equus_caballus loxodonta_africana cavia_porcellus felis_catus meleagris_gallopavo"
+declare -A organisms
 
-for i in $organisms; do
-    mkdir $i
-    touch $i/.gitignore
-    # -r recursive
-    # -P directory Prefix
-    # -nd no directories
-    # -A accept list
-    wget -r -P $i/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$i/pep/
+# organisms=(["EquCab"]="equus_caballus" ["LoxAfr"]="loxodonta_africana" ["CavPor"]="cavia_porcellus" ["FelCat"]="felis_catus" ["MelGal"]="meleagris_gallopavo" )
+organisms=(["EquCab"]="equus_caballus")
+
+for i in ${!organisms[@]}; do
+
+    orgName=${organisms[${i}]}
+    orgCode=${i}
+
+    mkdir $orgName
+    touch $orgName/.gitignore
+
+    # -r recursive | -P directory Prefix | -nd no directories | -A accept list
+    wget -r -P $orgName/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$orgName/pep/
+    gunzip $orgName/*.gz
+    mv $orgName/*all.fa $orgName/$orgCode.fa
+    
+
 done
