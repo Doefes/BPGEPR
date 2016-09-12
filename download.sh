@@ -1,9 +1,14 @@
 #!/bin/sh
 
 declare -A organisms
+organisms=(["EquCab"]="equus_caballus"
+            ["LoxAfr"]="loxodonta_africana"
+            ["CavPor"]="cavia_porcellus"
+            ["FelCat"]="felis_catus"
+            ["MelGal"]="meleagris_gallopavo" )
+# organisms=(["EquCab"]="equus_caballus")
 
-# organisms=(["EquCab"]="equus_caballus" ["LoxAfr"]="loxodonta_africana" ["CavPor"]="cavia_porcellus" ["FelCat"]="felis_catus" ["MelGal"]="meleagris_gallopavo" )
-organisms=(["EquCab"]="equus_caballus")
+# wget "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=CAA37914&rettype=fasta&retmode=text" -O "CAA37914.fa"
 
 for i in ${!organisms[@]}; do
 
@@ -17,6 +22,12 @@ for i in ${!organisms[@]}; do
     wget -r -P $orgName/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$orgName/pep/
     gunzip $orgName/*.gz
     mv $orgName/*all.fa $orgName/$orgCode.fa
-    
+
+    makeblastdb -in $orgName/$orgCode.fa -dbtype prot
+    blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/out_$orgCode.txt
+    blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/tab_$orgCode.txt -outfmt 6
+
+    awk '{if($11 == 0.0){print $2;}}' $orgName/tab_$orgCode.txt >> E0.txt
+    awk -F '\n' '{print $1; print "oto"}' E0.txt
 
 done
