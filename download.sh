@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo -n > E0.txt
+echo -n > multi.fa
+
 declare -A organisms
 organisms=(["EquCab"]="equus_caballus"
             ["LoxAfr"]="loxodonta_africana"
@@ -15,19 +18,27 @@ for i in ${!organisms[@]}; do
     orgName=${organisms[${i}]}
     orgCode=${i}
 
-    mkdir $orgName
-    touch $orgName/.gitignore
-
-    # -r recursive | -P directory Prefix | -nd no directories | -A accept list
-    wget -r -P $orgName/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$orgName/pep/
-    gunzip $orgName/*.gz
-    mv $orgName/*all.fa $orgName/$orgCode.fa
-
-    makeblastdb -in $orgName/$orgCode.fa -dbtype prot
-    blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/out_$orgCode.txt
-    blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/tab_$orgCode.txt -outfmt 6
+    # mkdir $orgName
+    # touch $orgName/.gitignore
+    #
+    # # -r recursive | -P directory Prefix | -nd no directories | -A accept list
+    # wget -r -P $orgName/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$orgName/pep/
+    # gunzip $orgName/*.gz
+    # mv $orgName/*all.fa $orgName/$orgCode.fa
+    #
+    # makeblastdb -in $orgName/$orgCode.fa -dbtype prot
+    # blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/out_$orgCode.txt
+    # blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/tab_$orgCode.txt -outfmt 6
 
     awk '{if($11 == 0.0){print $2;}}' $orgName/tab_$orgCode.txt >> E0.txt
-    awk -F '\n' '{print $1; print "oto"}' E0.txt
+    cat $orgName/$orgCode.fa | awk '{if(substr($1,1,1) == ">") print $1"@"; else print $0}'| tr -d "\n" | sed 's/>/\n>/g'| egrep -f E0.txt | tr "@" "\n" >> multi.fa
+
+  #   awk -F '\n' '{print $i;
+  #   getline < "E0.txt"
+  # }' E0.txt
+  # while read code; do
+  #   echo $code
+  #
+  # done <E0.txt
 
 done
