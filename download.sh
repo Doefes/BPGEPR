@@ -1,4 +1,5 @@
 #!/bin/sh
+# Blast version 2.4.0+
 
 echo -n > E0.txt
 echo -n > multi.fa
@@ -30,6 +31,8 @@ for i in ${!organisms[@]}; do
     blastp -query CAA37914.fa -db $orgName/$orgCode.fa -out $orgName/tab_$orgCode.txt -outfmt 6
 
     awk '{if($11 == 0.0){print $2;}}' $orgName/tab_$orgCode.txt >> E0.txt
-    cat $orgName/$orgCode.fa | awk '{if(substr($1,1,1) == ">") print $1"@"; else print $0}'| tr -d "\n" | sed 's/>/\n>/g'| egrep -f E0.txt | tr "@" "\n" >> multi.fa
+    awk '{if(substr($1,1,1) == ">") print $1"@"; else print $0}' $orgName/$orgCode.fa | tr -d "\n" | sed 's/>/\n>/g'| egrep -f E0.txt | tr "@" "\n" >> multi.fa
 
 done
+
+awk '{if (substr($1,1,1)==">") print ">"substr($1,15,10)"@"; else print $0}' CAA37914.fa | tr -d "\n" | tr "@" "\n" >> multi.fa
