@@ -1,5 +1,6 @@
 #!/bin/sh
 # Blast version 2.4.0+
+# ClustalW version 2.1
 
 echo -n > E0.txt
 echo -n > multi.fa
@@ -36,3 +37,6 @@ for i in ${!organisms[@]}; do
 done
 
 awk '{if (substr($1,1,1)==">") print ">"substr($1,15,10)"@"; else print $0}' CAA37914.fa | tr -d "\n" | tr "@" "\n" >> multi.fa
+
+clustalw2 -align -infile=multi.fa
+clustalw2 -bootstrap=990 -infile=multi.aln
