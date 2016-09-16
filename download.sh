@@ -4,6 +4,7 @@
 
 echo -n > E0.txt
 echo -n > multi.fa
+echo -n > multi2.fa
 
 declare -A organisms
 organisms=(["EquCab"]="equus_caballus"
@@ -21,7 +22,7 @@ for i in ${!organisms[@]}; do
 
     mkdir $orgName
     touch $orgName/.gitignore
-
+    
     # -r recursive | -P directory Prefix | -nd no directories | -A accept list
     wget -r -P $orgName/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$orgName/pep/
     gunzip $orgName/*.gz
@@ -38,5 +39,15 @@ done
 
 awk '{if (substr($1,1,1)==">") print ">"substr($1,15,10)"@"; else print $0}' CAA37914.fa | tr -d "\n" | tr "@" "\n" >> multi.fa
 
+
 clustalw2 -align -infile=multi.fa
 clustalw2 -bootstrap=990 -infile=multi.aln
+
+awk '{if (substr($1,1,1) == ">"){if(length($1) > 11) {part1 = substr($1,5,4);part2 = substr($1,14,6);$1 = ">"part1 part2;}print $1;} else {print $1;}}' multi.fa > multi2.fa
+
+clustalw2 -align -infile=multi2.fa
+clustalw2 -bootstrap=990 -infile=multi2.aln
+
+# Boom bekijken http://www.phylogeny.fr/
+# Welk eiwit meest gerelateerd aan sequentie
+# http://www.phylogeny.fr/one_task.cgi?task_type=treedyn&workflow_id=7a83f04343d0b7a499ecde716749581d&tab_index=3
