@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 #!/bin/bash
 # Blast version 2.2.25+
 # ClustalW version 2.1
+=======
+#!/bin/sh
+# Blast version 2.2.25+
+>>>>>>> 89c4acac7c85b8b255b9538a0f76d21206dd61f1
 
 echo -n > E0.txt
 echo -n > multi.fa
