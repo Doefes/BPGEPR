@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Blast version 2.4.0+
 # ClustalW version 2.1
 
@@ -21,8 +21,7 @@ for i in ${!organisms[@]}; do
     orgCode=${i}
 
     mkdir $orgName
-    touch $orgName/.gitignore
-    
+
     # -r recursive | -P directory Prefix | -nd no directories | -A accept list
     wget -r -P $orgName/ -nd -A '*all.fa.gz' ftp://ftp.ensembl.org/pub/release-85/fasta/$orgName/pep/
     gunzip $orgName/*.gz
