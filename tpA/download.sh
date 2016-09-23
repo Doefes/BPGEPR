@@ -29,11 +29,7 @@ for i in ${!organisms[@]}; do
 
     formatdb -i $orgName/$orgCode.fa -p T
     blastall -i CAA37914.fa -d $orgName/$orgCode.fa -o $orgName/out_$orgCode.txt -p blastp
-<<<<<<< HEAD:tpA/download.sh
     blastall -i CAA37914.fa -d $orgName/$orgCode.fa -o $orgName/out_$orgCode.txt -p blastp -m8
-=======
-    blastall -i CAA37914.fa -d $orgName/$orgCode.fa -o $orgName/tab_$orgCode.txt -p blastp -m8
->>>>>>> Rebased with master + tested and optimized on server:download.sh
 
     awk '{if($11 == 0.0){print $2;}}' $orgName/tab_$orgCode.txt >> E0.txt
     awk '{if(substr($1,1,1) == ">") print $1"@"; else print $0}' $orgName/$orgCode.fa | tr -d "\n" | sed 's/>/\n>/g'| egrep -f E0.txt | tr "@" "\n" >> multi.fa
