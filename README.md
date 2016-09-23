@@ -1,4 +1,8 @@
 # Project BPGEPR
+**BLAST VERSION 2.4.0**
+
+Click [here](https://github.com/Doefes/BPGEPR/tree/legacyBlast)
+for legacy BLAST (VERSION 2.2.9 and below)
 
 1. tpA = tussenproduct A.
 
