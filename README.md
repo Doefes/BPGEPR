@@ -13,6 +13,5 @@
 	- Run following commands to execute:
 		
 		```bash
-		sh tpB/nucl.sh
-		sh tpB/prot.sh
+		sh tpB/merge.sh
 		```
