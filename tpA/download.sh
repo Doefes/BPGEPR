@@ -29,7 +29,11 @@ for i in ${!organisms[@]}; do
 
     formatdb -i $orgName/$orgCode.fa -p T
     blastall -i CAA37914.fa -d $orgName/$orgCode.fa -o $orgName/out_$orgCode.txt -p blastp
+<<<<<<< HEAD:tpA/download.sh
     blastall -i CAA37914.fa -d $orgName/$orgCode.fa -o $orgName/out_$orgCode.txt -p blastp -m8
+=======
+    blastall -i CAA37914.fa -d $orgName/$orgCode.fa -o $orgName/tab_$orgCode.txt -p blastp -m8
+>>>>>>> Rebased with master + tested and optimized on server:download.sh
 
     awk '{if($11 == 0.0){print $2;}}' $orgName/tab_$orgCode.txt >> E0.txt
     awk '{if(substr($1,1,1) == ">") print $1"@"; else print $0}' $orgName/$orgCode.fa | tr -d "\n" | sed 's/>/\n>/g'| egrep -f E0.txt | tr "@" "\n" >> multi.fa
@@ -39,13 +43,13 @@ done
 awk '{if (substr($1,1,1)==">") print ">"substr($1,15,10)"@"; else print $0}' CAA37914.fa | tr -d "\n" | tr "@" "\n" >> multi.fa
 
 
-clustalw2 -align -infile=multi.fa
-clustalw2 -bootstrap=990 -infile=multi.aln
+clustalw -align -infile=multi.fa
+clustalw -bootstrap=990 -infile=multi.aln
 
 awk '{if (substr($1,1,1) == ">"){if(length($1) > 11) {part1 = substr($1,5,4);part2 = substr($1,14,6);$1 = ">"part1 part2;}print $1;} else {print $1;}}' multi.fa > multi2.fa
 
-clustalw2 -align -infile=multi2.fa
-clustalw2 -bootstrap=990 -infile=multi2.aln
+clustalw -align -infile=multi2.fa
+clustalw -bootstrap=990 -infile=multi2.aln
 
 # Boom bekijken http://www.phylogeny.fr/
 # Welk eiwit meest gerelateerd aan sequentie
