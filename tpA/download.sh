@@ -2,6 +2,8 @@
 # Blast version 2.4.0+
 # ClustalW version 2.1
 
+cd "$(dirname "$0")"
+
 echo -n > E0.txt
 echo -n > multi.fa
 echo -n > multi2.fa

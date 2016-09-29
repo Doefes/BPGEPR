@@ -7,15 +7,14 @@ for legacy BLAST (VERSION 2.2.9 and below)
 1. tpA = tussenproduct A.
 
 	- Run following command to execute:
-		
+
 		```bash
-		cd tpA/
-		sh download.sh
+		sh tpA/download.sh
 		```
 2. tpB = tussenproduct B.
 
 	- Run following commands to execute:
-		
+
 		```bash
 		sh tpB/merge.sh
 		```
