@@ -18,3 +18,11 @@ for legacy BLAST (VERSION 2.2.9 and below)
 		```bash
 		sh tpB/merge.sh
 		```
+
+3. tpC = tussenproduct C.
+
+	- Run following command to execute:
+
+		```bash
+		sh tpC/main.sh
+		```
