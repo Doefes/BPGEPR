@@ -1,9 +1,10 @@
-#!/bin/sh
-
+# #!/bin/sh
+#
 cd "$(dirname "$0")"
 
 echo -n > _KeggIDs
 echo -n > _PWs
+echo -n > _output
 
 while read CODE
 do
@@ -19,4 +20,11 @@ do
 
 done < _KeggIDs
 
+while read CODE
+do
+  wget -O- http://rest.kegg.jp/link/pathway/shr:$CODE >> _PWs
+done < nucl.bls
+
+
 sort -k2 -o _PWs _PWs
+uniq _PWs > _output
