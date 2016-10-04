@@ -25,7 +25,6 @@ for legacy BLAST (VERSION 2.2.9 and below)
 
 		```bash
 		sh tpC/main.sh
-		```
+		```	
+Test
 
-
-test merge conflict
