@@ -25,5 +25,11 @@ for legacy BLAST (VERSION 2.2.9 and below)
 
 		```bash
 		sh tpC/main.sh
+<<<<<<< HEAD
 		```
 HOI
+=======
+		```	
+Test
+
+>>>>>>> bc2f0fb2c738abb6c45061b1b7e7dfb534aa3333
